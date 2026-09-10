@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>BestDeal - Compare Prices & Save Money</title>
+
+<meta name="description"
+content="BestDeal helps you compare product prices and find the best deals from popular online stores.">
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f5f6f8;
+    color: #222;
+}
+
+/* HEADER */
+header {
+    background: #111827;
+    color: white;
+    padding: 18px 15px;
+}
+
+.header-inner {
+    max-width: 1100px;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+.logo {
+    font-size: 27px;
+    font-weight: bold;
+}
+
+.logo span {
+    color: #22c55e;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin-left: 18px;
+    font-size: 15px;
+}
+
+/* HERO */
+.hero {
+    background: white;
+    text-align: center;
+    padding: 40px 15px;
+}
+
+.hero h1 {
+    margin: 0;
+    font-size: 34px;
+}
+
+.hero p {
+    color: #666;
+    font-size: 17px;
+}
+
+.search-box {
+    max-width: 650px;
+    margin: 25px auto 0;
+    display: flex;
+    gap: 8px;
+}
+
+.search-box input {
+    flex: 1;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+.search-box button {
+    padding: 15px 22px;
+    border: none;
+    border-radius: 8px;
+    background: #22c55e;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* CONTAINER */
+.container {
+    max-width: 1100px;
+    margin: auto;
+    padding: 25px 15px;
+}
+
+.section-title {
+    margin-bottom: 18px;
+}
+
+/* CATEGORIES */
+.categories {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 12px;
+}
+
+.category {
+    background: white;
+    padding: 18px 10px;
+    text-align: center;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.category:hover {
+    transform: translateY(-2px);
+}
+
+.category .icon {
+    font-size: 30px;
+    margin-bottom: 7px;
+}
+
+/* PRODUCTS */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 18px;
+}
+
+.product-card {
+    background: white;
+    border-radius: 12px;
+    padding: 18px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+}
+
+.product-image {
+    height: 170px;
+    border-radius: 10px;
+    background: #eef0f2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 65px;
+    margin-bottom: 15px;
+}
+
+.product-card h3 {
+    margin: 5px 0 10px;
+}
+
+.price {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.old-price {
+    color: #888;
+    text-decoration: line-through;
+    font-size: 14px;
+    margin-left: 5px;
+}
+
+.store {
+    margin-top: 8px;
+    color: #666;
+    font-size: 14px;
+}
+
+.buttons {
+    display: flex;
+    gap: 8px;
+    margin-top: 15px;
+}
+
+.buy-btn,
+.compare-btn {
+    flex: 1;
+    padding: 10px;
+    border-radius: 7px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.buy-btn {
+    border: none;
+    background: #ff9900;
+    color: white;
+}
+
+.compare-btn {
+    border: 1px solid #111827;
+    background: white;
+}
+
+/* COMPARISON */
+#comparison {
+    display: none;
+    background: white;
+    padding: 20px;
+    margin-top: 30px;
+    border-radius: 12px;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 650px;
+}
+
+th,
+td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: center;
+}
+
+th {
+    background: #111827;
+    color: white;
+}
+
+.best {
+    font-weight: bold;
+    color: #16a34a;
+}
+
+/* FOOTER */
+footer {
+    background: #111827;
+    color: white;
+    text-align: center;
+    padding: 30px 15px;
+    margin-top: 40px;
+}
+
+footer p {
+    margin: 6px;
+    color: #ccc;
+}
+
+/* MOBILE */
+@media (max-width: 650px) {
+
+    .header-inner {
+        flex-direction: column;
+    }
+
+    nav a {
+        margin: 0 6px;
+    }
+
+    .hero h1 {
+        font-size: 27px;
+    }
+
+    .search-box {
+        flex-direction: column;
+    }
+
+    .search-box button {
+        width: 100%;
+    }
+
+    .product-grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="header-inner">
+
+        <div class="logo">
+            Best<span>Deal</span>
+        </div>
+
+        <nav>
+            <a href="#">Home</a>
+            <a href="#categories">Categories</a>
+            <a href="#products">Deals</a>
+            <a href="#comparison">Compare</a>
+        </nav>
+
+    </div>
+
+</header>
+
+
+<section class="hero">
+
+    <h1>Find the Best Deal</h1>
+
+    <p>
+        Compare prices. Save money. Buy smarter.
+    </p>
+
+    <div class="search-box">
+
+        <input
+            type="text"
+            id="searchInput"
+            placeholder="Search for a product..."
+            onkeyup="searchProducts()">
+
+        <button onclick="searchProducts()">
+            Search
+        </button>
+
+    </div>
+
+</section>
+
+
+<div class="container">
+
+    <section id="categories">
+
+        <h2 class="section-title">
+            Shop by Category
+        </h2>
+
+        <div class="categories">
+
+            <div class="category"
+                 onclick="filterCategory('Mobile')">
+                <div class="icon">📱</div>
+                Mobile
+            </div>
+
+            <div class="category"
+                 onclick="filterCategory('Laptop')">
+                <div class="icon">💻</div>
+                Laptops
+            </div>
+
+            <div class="category"
+                 onclick="filterCategory('TV')">
+                <div class="icon">📺</div>
+                TVs
+            </div>
+
+            <div class="category"
+                 onclick="filterCategory('Audio')">
+                <div class="icon">🎧</div>
+                Audio
+            </div>
+
+            <div class="category"
+                 onclick="filterCategory('Appliance')">
+                <div class="icon">🏠</div>
+                Appliances
+            </div>
+
+            <div class="category"
+                 onclick="filterCategory('Bike')">
+                <div class="icon">🏍️</div>
+                Bikes
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section id="products" style="margin-top:35px">
+
+        <h2 class="section-title">
+            Popular Products
+        </h2>
+
+        <div
+            class="product-grid"
+            id="productGrid">
+        </div>
+
+    </section>
+
+
+    <section id="comparison">
+
+        <h2>⚖️ Price Comparison</h2>
+
+        <div id="comparisonTable"></div>
+
+    </section>
+
+</div>
+
+
+<footer>
+
+    <h3>BestDeal</h3>
+
+    <p>
+        Compare prices and find better deals.
+    </p>
+
+    <p>
+        Prices may change. Always verify the final price
+        on the seller's website before purchasing.
+    </p>
+
+    <p>
+        © 2026 BestDeal
+    </p>
+
+</footer>
+
+
+<script>
+
+const products = [
+
+    {
+        id: 1,
+        name: "Samsung Galaxy Smartphone",
+        category: "Mobile",
+        icon: "📱",
+        price: 15999,
+        oldPrice: 17999,
+        store: "Amazon",
+        rating: "4.4"
+    },
+
+    {
+        id: 2,
+        name: "HP Laptop",
+        category: "Laptop",
+        icon: "💻",
+        price: 45999,
+        oldPrice: 49999,
+        store: "Flipkart",
+        rating: "4.3"
+    },
+
+    {
+        id: 3,
+        name: "Smart LED TV",
+        category: "TV",
+        icon: "📺",
+        price: 29999,
+        oldPrice: 34999,
+        store: "Amazon",
+        rating: "4.2"
+    },
+
+    {
+        id: 4,
+        name: "Wireless Earbuds",
+        category: "Audio",
+        icon: "🎧",
+        price: 1499,
+        oldPrice: 1999,
+        store: "Flipkart",
+        rating: "4.5"
+    },
+
+    {
+        id: 5,
+        name: "Air Fryer",
+        category: "Appliance",
+        icon: "🏠",
+        price: 3999,
+        oldPrice: 4999,
+        store: "Amazon",
+        rating: "4.4"
+    },
+
+    {
+        id: 6,
+        name: "Electric Scooter",
+        category: "Bike",
+        icon: "🏍️",
+        price: 99999,
+        oldPrice: 109999,
+        store: "Flipkart",
+        rating: "4.1"
+    }
+
+];
+
+
+let selectedProducts = [];
+
+
+function displayProducts(list) {
+
+    const grid =
+        document.getElementById("productGrid");
+
+    grid.innerHTML = "";
+
+    if (list.length === 0) {
+
+        grid.innerHTML =
+            "<p>No products found.</p>";
+
+        return;
+    }
+
+
+    list.forEach(product => {
+
+        const selected =
+            selectedProducts.includes(product.id);
+
+        grid.innerHTML += `
+
+            <div class="product-card">
+
+                <div class="product-image">
+                    ${product.icon}
+                </div>
+
+                <h3>
+                    ${product.name}
+                </h3>
+
+                <div class="price">
+
+                    ₹${product.price.toLocaleString("en-IN")}
+
+                    <span class="old-price">
+                        ₹${product.oldPrice.toLocaleString("en-IN")}
+                    </span>
+
+                </div>
+
+                <div class="store">
+                    Store: ${product.store}
+                </div>
+
+                <div class="store">
+                    ⭐ ${product.rating}
+                </div>
+
+                <div class="buttons">
+
+                    <button
+                        class="buy-btn"
+                        onclick="buyProduct(${product.id})">
+
+                        View Deal
+
+                    </button>
+
+                    <button
+                        class="compare-btn"
+                        onclick="toggleCompare(${product.id})">
+
+                        ${selected ? "✓ Selected" : "Compare"}
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        `;
+
+    });
+
+}
+
+
+function searchProducts() {
+
+    const query =
+        document
+        .getElementById("searchInput")
+        .value
+        .toLowerCase()
+        .trim();
+
+    const filtered =
+        products.filter(product =>
+            product.name
+            .toLowerCase()
+            .includes(query)
+        );
+
+    displayProducts(filtered);
+
+}
+
+
+function filterCategory(category) {
+
+    const filtered =
+        products.filter(product =>
+            product.category === category
+        );
+
+    displayProducts(filtered);
+
+    document
+        .getElementById("products")
+        .scrollIntoView({
+            behavior: "smooth"
+        });
+
+}
+
+
+function toggleCompare(id) {
+
+    if (selectedProducts.includes(id)) {
+
+        selectedProducts =
+            selectedProducts.filter(
+                productId => productId !== id
+            );
+
+    } else {
+
+        if (selectedProducts.length >= 3) {
+
+            alert(
+                "You can compare up to 3 products."
+            );
+
+            return;
+        }
+
+        selectedProducts.push(id);
+
+    }
+
+    displayProducts(products);
+
+    createComparison();
+
+}
+
+
+function createComparison() {
+
+    const section =
+        document.getElementById("comparison");
+
+    const tableContainer =
+        document.getElementById("comparisonTable");
+
+
+    if (selectedProducts.length < 2) {
+
+        section.style.display = "none";
+
+        return;
+
+    }
+
+
+    section.style.display = "block";
+
+
+    const selected =
+        products.filter(product =>
+            selectedProducts.includes(product.id)
+        );
+
+
+    let html = "<table>";
+
+    html += `
+        <tr>
+            <th>Feature</th>
+    `;
+
+
+    selected.forEach(product => {
+
+        html += `
+            <th>
+                ${product.name}
+            </th>
+        `;
+
+    });
+
+
+    html += "</tr>";
+
+
+    const rows = [
+
+        ["Category", "category"],
+
+        ["Price", "price"],
+
+        ["Store", "store"],
+
+        ["Rating", "rating"]
+
+    ];
+
+
+    rows.forEach(row => {
+
+        html += `
+            <tr>
+                <td>
+                    <strong>
+                        ${row[0]}
+                    </strong>
+                </td>
+        `;
+
+
+        selected.forEach(product => {
+
+            let value =
+                product[row[1]];
+
+            if (row[1] === "price") {
+
+                value =
+                    "₹" +
+                    value.toLocaleString("en-IN");
+
+            }
+
+
+            html += `
+                <td>
+                    ${value}
+                </td>
+            `;
+
+        });
+
+
+        html += "</tr>";
+
+    });
+
+
+    html += "</table>";
+
+
+    tableContainer.innerHTML = html;
+
+
+    section.scrollIntoView({
+        behavior: "smooth"
+    });
+
+}
+
+
+function buyProduct(id) {
+
+    const product =
+        products.find(p => p.id === id);
+
+    alert(
+        "Deal link for " +
+        product.name +
+        " will be added later."
+    );
+
+}
+
+
+displayProducts(products);
+
+</script>
+
+</body>
+</html>
