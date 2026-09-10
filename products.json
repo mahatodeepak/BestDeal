@@ -1,73 +1,64 @@
 [
   {
     "id": "MOB001",
-    "name": "Sample Smartphone 1",
+    "name": "Samsung Galaxy Smartphone",
     "category": "Mobile",
-    "image": "https://placehold.co/600x400?text=Smartphone+1",
+    "brand": "Samsung",
+    "image": "images/mobile1.jpg",
     "stores": [
       {
         "name": "Amazon",
         "price": 14999,
-        "url": "#"
+        "url": "#",
+        "available": true
       },
       {
         "name": "Flipkart",
         "price": 14599,
-        "url": "#"
-      }
-    ]
-  },
-  {
-    "id": "MOB002",
-    "name": "Sample Smartphone 2",
-    "category": "Mobile",
-    "image": "https://placehold.co/600x400?text=Smartphone+2",
-    "stores": [
-      {
-        "name": "Amazon",
-        "price": 17999,
-        "url": "#"
-      },
-      {
-        "name": "Flipkart",
-        "price": 17499,
-        "url": "#"
+        "url": "#",
+        "available": true
       }
     ]
   },
   {
     "id": "LAP001",
-    "name": "Sample Laptop 1",
+    "name": "HP Laptop",
     "category": "Laptops",
-    "image": "https://placehold.co/600x400?text=Laptop",
+    "brand": "HP",
+    "image": "images/laptop1.jpg",
     "stores": [
       {
         "name": "Amazon",
         "price": 49999,
-        "url": "#"
+        "url": "#",
+        "available": true
       },
       {
         "name": "Flipkart",
         "price": 48999,
-        "url": "#"
+        "url": "#",
+        "available": true
       }
     ]
   },
   {
     "id": "TV001",
-    "name": "Sample Smart TV",
+    "name": "Samsung Smart TV",
     "category": "TVs",
-    "image": "https://placehold.co/600x400?text=Smart+TV",
+    "brand": "Samsung",
+    "image": "images/tv1.jpg",
     "stores": [
       {
         "name": "Amazon",
         "price": 32999,
-        "url": "#"
+        "url": "#",
+        "available": true
       },
       {
         "name": "Flipkart",
         "price": 31999,
-        "url": "#"
+        "url": "#",
+        "available": true
       }
     ]
   }
