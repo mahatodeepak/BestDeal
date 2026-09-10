@@ -3,7 +3,7 @@
     "id": "MOB001",
     "name": "Sample Smartphone 1",
     "category": "Mobile",
-    "image": "https://via.placeholder.com/300x220?text=Mobile",
+    "image": "https://placehold.co/600x400?text=Smartphone+1",
     "stores": [
       {
         "name": "Amazon",
@@ -21,7 +21,7 @@
     "id": "MOB002",
     "name": "Sample Smartphone 2",
     "category": "Mobile",
-    "image": "https://via.placeholder.com/300x220?text=Mobile",
+    "image": "https://placehold.co/600x400?text=Smartphone+2",
     "stores": [
       {
         "name": "Amazon",
@@ -39,7 +39,7 @@
     "id": "LAP001",
     "name": "Sample Laptop 1",
     "category": "Laptops",
-    "image": "https://via.placeholder.com/300x220?text=Laptop",
+    "image": "https://placehold.co/600x400?text=Laptop",
     "stores": [
       {
         "name": "Amazon",
@@ -57,7 +57,7 @@
     "id": "TV001",
     "name": "Sample Smart TV",
     "category": "TVs",
-    "image": "https://via.placeholder.com/300x220?text=Smart+TV",
+    "image": "https://placehold.co/600x400?text=Smart+TV",
     "stores": [
       {
         "name": "Amazon",
