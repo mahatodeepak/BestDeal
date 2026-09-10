@@ -1,0 +1,74 @@
+[
+  {
+    "id": "MOB001",
+    "name": "Sample Smartphone 1",
+    "category": "Mobile",
+    "image": "https://via.placeholder.com/300x220?text=Mobile",
+    "stores": [
+      {
+        "name": "Amazon",
+        "price": 14999,
+        "url": "#"
+      },
+      {
+        "name": "Flipkart",
+        "price": 14599,
+        "url": "#"
+      }
+    ]
+  },
+  {
+    "id": "MOB002",
+    "name": "Sample Smartphone 2",
+    "category": "Mobile",
+    "image": "https://via.placeholder.com/300x220?text=Mobile",
+    "stores": [
+      {
+        "name": "Amazon",
+        "price": 17999,
+        "url": "#"
+      },
+      {
+        "name": "Flipkart",
+        "price": 17499,
+        "url": "#"
+      }
+    ]
+  },
+  {
+    "id": "LAP001",
+    "name": "Sample Laptop 1",
+    "category": "Laptops",
+    "image": "https://via.placeholder.com/300x220?text=Laptop",
+    "stores": [
+      {
+        "name": "Amazon",
+        "price": 49999,
+        "url": "#"
+      },
+      {
+        "name": "Flipkart",
+        "price": 48999,
+        "url": "#"
+      }
+    ]
+  },
+  {
+    "id": "TV001",
+    "name": "Sample Smart TV",
+    "category": "TVs",
+    "image": "https://via.placeholder.com/300x220?text=Smart+TV",
+    "stores": [
+      {
+        "name": "Amazon",
+        "price": 32999,
+        "url": "#"
+      },
+      {
+        "name": "Flipkart",
+        "price": 31999,
+        "url": "#"
+      }
+    ]
+  }
+]
