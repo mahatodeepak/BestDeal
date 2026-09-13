@@ -76,6 +76,11 @@ header{
     overflow-x:auto;
     padding:15px;
     background:white;
+    scrollbar-width:none;
+}
+
+.categories::-webkit-scrollbar{
+    display:none;
 }
 
 .category{
@@ -85,6 +90,7 @@ header{
     background:#e5e7eb;
     cursor:pointer;
     font-size:14px;
+    border:none;
 }
 
 .category.active{
@@ -267,7 +273,6 @@ footer{
 
 <body>
 
-
 <!-- HEADER -->
 
 <header>
@@ -298,51 +303,17 @@ footer{
 </div>
 
 
-<!-- CATEGORIES -->
+<!-- DYNAMIC CATEGORIES -->
 
-<div class="categories">
+<div
+    id="categories"
+    class="categories">
 
-    <div
+    <button
         class="category active"
         onclick="selectCategory('All',this)">
         All
-    </div>
-
-    <div
-        class="category"
-        onclick="selectCategory('Mobile',this)">
-        📱 Mobile
-    </div>
-
-    <div
-        class="category"
-        onclick="selectCategory('Laptop',this)">
-        💻 Laptops
-    </div>
-
-    <div
-        class="category"
-        onclick="selectCategory('TV',this)">
-        📺 TVs
-    </div>
-
-    <div
-        class="category"
-        onclick="selectCategory('Audio',this)">
-        🎧 Audio
-    </div>
-
-    <div
-        class="category"
-        onclick="selectCategory('Appliances',this)">
-        🏠 Appliances
-    </div>
-
-    <div
-        class="category"
-        onclick="selectCategory('Bikes',this)">
-        🏍️ Bikes
-    </div>
+    </button>
 
 </div>
 
@@ -432,7 +403,8 @@ function convertProduct(product){
 
     if(
         product.amazon_price !== null &&
-        product.amazon_price !== undefined
+        product.amazon_price !== undefined &&
+        Number(product.amazon_price) > 0
     ){
 
         stores.push({
@@ -456,7 +428,8 @@ function convertProduct(product){
 
     if(
         product.flipkart_price !== null &&
-        product.flipkart_price !== undefined
+        product.flipkart_price !== undefined &&
+        Number(product.flipkart_price) > 0
     ){
 
         stores.push({
@@ -480,7 +453,7 @@ function convertProduct(product){
 
         id:String(product.id),
 
-        name:product.name,
+        name:product.name || "Unnamed Product",
 
         category:
             product.category ||
@@ -544,6 +517,11 @@ async function loadProducts(){
             );
 
 
+        /* CREATE CATEGORIES */
+
+        buildCategories();
+
+
         status.style.display =
             "none";
 
@@ -566,6 +544,122 @@ async function loadProducts(){
             '</div>';
 
     }
+
+}
+
+
+/* =========================================
+   BUILD DYNAMIC CATEGORIES
+========================================= */
+
+function buildCategories(){
+
+    const container =
+        document.getElementById(
+            "categories"
+        );
+
+
+    container.innerHTML = "";
+
+
+    /* ALL BUTTON */
+
+    const allButton =
+        document.createElement(
+            "button"
+        );
+
+
+    allButton.className =
+        "category active";
+
+
+    allButton.innerText =
+        "All";
+
+
+    allButton.onclick =
+        function(){
+
+            selectCategory(
+                "All",
+                this
+            );
+
+        };
+
+
+    container.appendChild(
+        allButton
+    );
+
+
+    /* FIND UNIQUE CATEGORIES */
+
+    const categorySet =
+        new Set();
+
+
+    allProducts.forEach(
+        product => {
+
+            if(
+                product.category
+            ){
+
+                categorySet.add(
+                    product.category
+                );
+
+            }
+
+        }
+    );
+
+
+    const categories =
+        Array.from(
+            categorySet
+        ).sort();
+
+
+    /* CREATE BUTTONS */
+
+    categories.forEach(
+        category => {
+
+            const button =
+                document.createElement(
+                    "button"
+                );
+
+
+            button.className =
+                "category";
+
+
+            button.innerText =
+                category;
+
+
+            button.onclick =
+                function(){
+
+                    selectCategory(
+                        category,
+                        this
+                    );
+
+                };
+
+
+            container.appendChild(
+                button
+            );
+
+        }
+    );
 
 }
 
@@ -650,7 +744,7 @@ function displayProducts(products){
                             href="${store.url}"
                             class="buy-btn"
                             target="_blank"
-                            rel="noopener">
+                            rel="noopener noreferrer">
                             Buy
                         </a>
 
@@ -759,16 +853,11 @@ function selectCategory(
 
 
     /*
-       Clear search when selecting
-       a category
+       Do NOT clear search.
+       Search + category can work together.
     */
 
-    document.getElementById(
-        "searchBox"
-    ).value = "";
-
-
-    filterProducts();
+    applyFilters();
 
 }
 
@@ -794,7 +883,7 @@ function filterProducts(){
 
 
 /* =========================================
-   PERFORM SEARCH
+   SEARCH
 ========================================= */
 
 async function performSearch(){
@@ -812,7 +901,7 @@ async function performSearch(){
 
     if(search === ""){
 
-        filterByCategory();
+        applyFilters();
 
         return;
 
@@ -873,9 +962,7 @@ async function performSearch(){
             );
 
 
-        /*
-           Apply category after API search
-        */
+        /* CATEGORY FILTER */
 
         if(
             currentCategory !==
@@ -919,14 +1006,26 @@ async function performSearch(){
 
 
 /* =========================================
-   CATEGORY FILTER
+   APPLY LOCAL FILTERS
 ========================================= */
 
-function filterByCategory(){
+function applyFilters(){
+
+    const search =
+        document
+            .getElementById(
+                "searchBox"
+            )
+            .value
+            .trim()
+            .toLowerCase();
+
 
     let results =
         allProducts;
 
+
+    /* CATEGORY */
 
     if(
         currentCategory !==
@@ -934,7 +1033,7 @@ function filterByCategory(){
     ){
 
         results =
-            allProducts.filter(
+            results.filter(
                 product =>
                     product.category
                         .toLowerCase() ===
@@ -945,9 +1044,33 @@ function filterByCategory(){
     }
 
 
+    /* SEARCH */
+
+    if(search){
+
+        results =
+            results.filter(
+                product =>
+
+                    product.name
+                        .toLowerCase()
+                        .includes(search)
+
+                    ||
+
+                    product.category
+                        .toLowerCase()
+                        .includes(search)
+
+            );
+
+    }
+
+
     document.getElementById(
         "status"
-    ).style.display = "none";
+    ).style.display =
+        "none";
 
 
     displayProducts(
@@ -1038,7 +1161,7 @@ function toggleCompare(
 
     }else{
 
-        filterByCategory();
+        applyFilters();
 
     }
 
@@ -1173,7 +1296,7 @@ function clearCompare(){
 
     }else{
 
-        filterByCategory();
+        applyFilters();
 
     }
 
