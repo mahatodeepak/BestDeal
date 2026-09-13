@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
 
 <title>BestDeal – Compare Prices & Save</title>
 
 <meta name="description"
-content="BestDeal helps you compare product prices and find better deals across online stores.">
+      content="BestDeal helps you compare product prices and find better deals across online stores.">
 
 <style>
 
@@ -23,15 +26,17 @@ body{
     color:#222;
 }
 
+/* HEADER */
+
 header{
     background:#111827;
     color:white;
-    padding:18px 15px;
+    padding:20px 15px;
     text-align:center;
 }
 
 .logo{
-    font-size:30px;
+    font-size:32px;
     font-weight:bold;
 }
 
@@ -40,6 +45,8 @@ header{
     font-size:14px;
     color:#d1d5db;
 }
+
+/* SEARCH */
 
 .search-area{
     padding:20px 15px;
@@ -50,7 +57,7 @@ header{
 .search-box{
     width:100%;
     max-width:600px;
-    padding:14px;
+    padding:15px;
     border:1px solid #ccc;
     border-radius:10px;
     font-size:16px;
@@ -60,6 +67,8 @@ header{
 .search-box:focus{
     border-color:#2563eb;
 }
+
+/* CATEGORIES */
 
 .categories{
     display:flex;
@@ -83,6 +92,8 @@ header{
     color:white;
 }
 
+/* CONTAINER */
+
 .container{
     max-width:1100px;
     margin:auto;
@@ -95,17 +106,23 @@ header{
     color:#555;
 }
 
+/* PRODUCTS */
+
 .products{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    grid-template-columns:
+        repeat(auto-fit,minmax(250px,1fr));
     gap:20px;
 }
+
+/* CARD */
 
 .card{
     background:white;
     border-radius:14px;
     padding:15px;
-    box-shadow:0 3px 12px rgba(0,0,0,0.08);
+    box-shadow:
+        0 3px 12px rgba(0,0,0,0.08);
 }
 
 .card img{
@@ -139,6 +156,8 @@ header{
     margin-bottom:12px;
 }
 
+/* STORE */
+
 .store{
     display:flex;
     justify-content:space-between;
@@ -155,6 +174,8 @@ header{
     font-weight:bold;
 }
 
+/* BUY BUTTON */
+
 .buy-btn{
     display:inline-block;
     margin-top:5px;
@@ -165,6 +186,8 @@ header{
     border-radius:7px;
     font-size:13px;
 }
+
+/* COMPARE BUTTON */
 
 .compare-btn{
     width:100%;
@@ -177,6 +200,8 @@ header{
     font-weight:bold;
     cursor:pointer;
 }
+
+/* COMPARE BAR */
 
 .compare-bar{
     position:fixed;
@@ -199,6 +224,8 @@ header{
     cursor:pointer;
 }
 
+/* FOOTER */
+
 footer{
     margin-top:40px;
     background:#111827;
@@ -211,6 +238,8 @@ footer{
 .error{
     color:#dc2626;
 }
+
+/* MOBILE */
 
 @media(max-width:600px){
 
@@ -233,9 +262,13 @@ footer{
 }
 
 </style>
+
 </head>
 
 <body>
+
+
+<!-- HEADER -->
 
 <header>
 
@@ -250,6 +283,8 @@ footer{
 </header>
 
 
+<!-- SEARCH -->
+
 <div class="search-area">
 
     <input
@@ -263,72 +298,75 @@ footer{
 </div>
 
 
-<div class="categories" id="categories">
+<!-- CATEGORIES -->
+
+<div class="categories">
 
     <div
         class="category active"
-        onclick="selectCategory('All',this)"
-    >
+        onclick="selectCategory('All',this)">
         All
     </div>
 
     <div
         class="category"
-        onclick="selectCategory('Mobile',this)"
-    >
+        onclick="selectCategory('Mobile',this)">
         📱 Mobile
     </div>
 
     <div
         class="category"
-        onclick="selectCategory('Laptop',this)"
-    >
+        onclick="selectCategory('Laptop',this)">
         💻 Laptops
     </div>
 
     <div
         class="category"
-        onclick="selectCategory('TV',this)"
-    >
+        onclick="selectCategory('TV',this)">
         📺 TVs
     </div>
 
     <div
         class="category"
-        onclick="selectCategory('Audio',this)"
-    >
+        onclick="selectCategory('Audio',this)">
         🎧 Audio
     </div>
 
     <div
         class="category"
-        onclick="selectCategory('Appliances',this)"
-    >
+        onclick="selectCategory('Appliances',this)">
         🏠 Appliances
     </div>
 
     <div
         class="category"
-        onclick="selectCategory('Bikes',this)"
-    >
+        onclick="selectCategory('Bikes',this)">
         🏍️ Bikes
     </div>
 
 </div>
 
 
+<!-- PRODUCTS -->
+
 <div class="container">
 
-    <div id="status" class="status">
+    <div id="status"
+         class="status">
         Loading products...
     </div>
 
-    <div id="products" class="products"></div>
+    <div id="products"
+         class="products">
+    </div>
 
 </div>
 
 
-<div id="compareBar" class="compare-bar">
+<!-- COMPARE BAR -->
+
+<div id="compareBar"
+     class="compare-bar">
 
     <span id="compareText">
         0 products selected
@@ -345,6 +383,8 @@ footer{
 </div>
 
 
+<!-- FOOTER -->
+
 <footer>
 
     <p>© 2026 BestDeal</p>
@@ -358,17 +398,17 @@ footer{
 
 <script>
 
-/* ==========================================
-   BESTDEAL API
-========================================== */
+/* =========================================
+   CLOUDFLARE WORKER
+========================================= */
 
 const API_URL =
 "https://bestdeal-api.deepakmahatobist.workers.dev";
 
 
-/* ==========================================
+/* =========================================
    VARIABLES
-========================================== */
+========================================= */
 
 let allProducts = [];
 
@@ -376,20 +416,105 @@ let currentCategory = "All";
 
 let selectedProducts = [];
 
+let searchTimer = null;
 
-/* ==========================================
-   LOAD PRODUCTS FROM CLOUDFLARE API
-========================================== */
+
+/* =========================================
+   CONVERT API PRODUCT
+========================================= */
+
+function convertProduct(product){
+
+    const stores = [];
+
+
+    /* AMAZON */
+
+    if(
+        product.amazon_price !== null &&
+        product.amazon_price !== undefined
+    ){
+
+        stores.push({
+
+            name:"Amazon",
+
+            price:Number(
+                product.amazon_price
+            ),
+
+            url:
+                product.amazon_url ||
+                "https://www.amazon.in/"
+
+        });
+
+    }
+
+
+    /* FLIPKART */
+
+    if(
+        product.flipkart_price !== null &&
+        product.flipkart_price !== undefined
+    ){
+
+        stores.push({
+
+            name:"Flipkart",
+
+            price:Number(
+                product.flipkart_price
+            ),
+
+            url:
+                product.flipkart_url ||
+                "https://www.flipkart.com/"
+
+        });
+
+    }
+
+
+    return {
+
+        id:String(product.id),
+
+        name:product.name,
+
+        category:
+            product.category ||
+            "Other",
+
+        image:
+            product.image_url ||
+            "https://via.placeholder.com/300",
+
+        stores:stores
+
+    };
+
+}
+
+
+/* =========================================
+   LOAD ALL PRODUCTS
+========================================= */
 
 async function loadProducts(){
 
     const status =
         document.getElementById("status");
 
+
     try{
 
         const response =
-            await fetch(API_URL + "/api/products");
+            await fetch(
+                API_URL +
+                "/api/products"
+            );
+
 
         if(!response.ok){
 
@@ -399,6 +524,7 @@ async function loadProducts(){
 
         }
 
+
         const data =
             await response.json();
 
@@ -406,90 +532,25 @@ async function loadProducts(){
         if(!data.success){
 
             throw new Error(
-                "API returned an error"
+                "API returned error"
             );
 
         }
 
 
-        /*
-         Convert D1 database format
-         into frontend format
-        */
-
         allProducts =
-            data.products.map(product => {
-
-                const stores = [];
-
-
-                if(
-                    product.amazon_price !== null &&
-                    product.amazon_price !== undefined
-                ){
-
-                    stores.push({
-
-                        name:"Amazon",
-
-                        price:Number(
-                            product.amazon_price
-                        ),
-
-                        url:
-                            product.amazon_url ||
-                            "https://www.amazon.in/"
-
-                    });
-
-                }
+            data.products.map(
+                convertProduct
+            );
 
 
-                if(
-                    product.flipkart_price !== null &&
-                    product.flipkart_price !== undefined
-                ){
-
-                    stores.push({
-
-                        name:"Flipkart",
-
-                        price:Number(
-                            product.flipkart_price
-                        ),
-
-                        url:
-                            product.flipkart_url ||
-                            "https://www.flipkart.com/"
-
-                    });
-
-                }
+        status.style.display =
+            "none";
 
 
-                return {
-
-                    id:String(product.id),
-
-                    name:product.name,
-
-                    category:product.category || "Other",
-
-                    image:
-                        product.image_url ||
-                        "https://via.placeholder.com/300",
-
-                    stores:stores
-
-                };
-
-            });
-
-
-        status.style.display = "none";
-
-
-        displayProducts(allProducts);
+        displayProducts(
+            allProducts
+        );
 
 
     }catch(error){
@@ -501,7 +562,7 @@ async function loadProducts(){
             '<div class="error">' +
             '❌ Unable to connect to BestDeal API.' +
             '<br><br>' +
-            'Please check the Cloudflare Worker.' +
+            'Please check your Cloudflare Worker.' +
             '</div>';
 
     }
@@ -509,14 +570,16 @@ async function loadProducts(){
 }
 
 
-/* ==========================================
+/* =========================================
    DISPLAY PRODUCTS
-========================================== */
+========================================= */
 
 function displayProducts(products){
 
     const container =
-        document.getElementById("products");
+        document.getElementById(
+            "products"
+        );
 
 
     container.innerHTML = "";
@@ -525,7 +588,8 @@ function displayProducts(products){
     if(products.length === 0){
 
         container.innerHTML =
-            "<div style='text-align:center;width:100%;padding:30px'>" +
+            "<div style='text-align:center;" +
+            "width:100%;padding:30px'>" +
             "No products found." +
             "</div>";
 
@@ -537,10 +601,6 @@ function displayProducts(products){
     products.forEach(product => {
 
 
-        /*
-         If product has no store prices
-        */
-
         if(
             !product.stores ||
             product.stores.length === 0
@@ -551,9 +611,7 @@ function displayProducts(products){
         }
 
 
-        /*
-         Find cheapest store
-        */
+        /* FIND CHEAPEST STORE */
 
         const cheapestStore =
             product.stores.reduce(
@@ -564,67 +622,65 @@ function displayProducts(products){
             );
 
 
-        /*
-         Create store rows
-        */
+        /* STORE HTML */
 
         let storesHTML = "";
 
 
-        product.stores.forEach(store => {
+        product.stores.forEach(
+            store => {
 
-            storesHTML += `
+                storesHTML += `
 
-                <div class="store">
+                    <div class="store">
 
-                    <div>
+                        <div>
 
-                        <div class="store-name">
-                            ${store.name}
+                            <div class="store-name">
+                                ${store.name}
+                            </div>
+
+                            <div class="store-price">
+                                ₹${store.price.toLocaleString("en-IN")}
+                            </div>
+
                         </div>
 
-                        <div class="store-price">
-                            ₹${store.price.toLocaleString("en-IN")}
-                        </div>
+                        <a
+                            href="${store.url}"
+                            class="buy-btn"
+                            target="_blank"
+                            rel="noopener">
+                            Buy
+                        </a>
 
                     </div>
 
+                `;
 
-                    <a
-                        href="${store.url}"
-                        class="buy-btn"
-                        target="_blank"
-                        rel="noopener"
-                    >
-                        Buy
-                    </a>
-
-                </div>
-
-            `;
-
-        });
+            }
+        );
 
 
-        /*
-         Check if product is selected
-        */
+        /* CHECK SELECTED */
 
         const isSelected =
             selectedProducts.some(
-                p => p.id === product.id
+                p =>
+                    p.id === product.id
             );
 
 
-        /*
-         Create card
-        */
+        /* CREATE CARD */
 
         const card =
-            document.createElement("div");
+            document.createElement(
+                "div"
+            );
 
 
-        card.className = "card";
+        card.className =
+            "card";
 
 
         card.innerHTML = `
@@ -635,39 +691,34 @@ function displayProducts(products){
                 onerror="this.src='https://via.placeholder.com/300'"
             >
 
-
             <div class="category-name">
                 ${product.category}
             </div>
-
 
             <h3>
                 ${product.name}
             </h3>
 
-
             <div class="best-price">
                 ₹${cheapestStore.price.toLocaleString("en-IN")}
             </div>
-
 
             <div class="best-store">
                 Best price at ${cheapestStore.name}
             </div>
 
-
             ${storesHTML}
-
 
             <button
                 class="compare-btn"
-                onclick="toggleCompare('${product.id}')"
-            >
+                onclick="toggleCompare('${product.id}')">
+
                 ${
                     isSelected
                     ? "✓ Added to Compare"
                     : "Add to Compare"
                 }
+
             </button>
 
         `;
@@ -680,9 +731,9 @@ function displayProducts(products){
 }
 
 
-/* ==========================================
-   CATEGORY
-========================================== */
+/* =========================================
+   CATEGORY SELECT
+========================================= */
 
 function selectCategory(
     category,
@@ -696,11 +747,25 @@ function selectCategory(
     document
         .querySelectorAll(".category")
         .forEach(button =>
-            button.classList.remove("active")
+            button.classList.remove(
+                "active"
+            )
         );
 
 
-    element.classList.add("active");
+    element.classList.add(
+        "active"
+    );
+
+
+    /*
+       Clear search when selecting
+       a category
+    */
+
+    document.getElementById(
+        "searchBox"
+    ).value = "";
 
 
     filterProducts();
@@ -708,73 +773,202 @@ function selectCategory(
 }
 
 
-/* ==========================================
-   SEARCH + CATEGORY FILTER
-========================================== */
+/* =========================================
+   SEARCH
+========================================= */
 
 function filterProducts(){
 
-    const search =
-        document
-            .getElementById("searchBox")
-            .value
-            .toLowerCase()
-            .trim();
+    clearTimeout(
+        searchTimer
+    );
 
 
-    const filtered =
-        allProducts.filter(product => {
-
-
-            const productCategory =
-                product.category
-                    .toLowerCase();
-
-
-            /*
-             Treat Laptops button
-             as Laptop category
-            */
-
-            const matchesCategory =
-                currentCategory === "All" ||
-                productCategory ===
-                currentCategory.toLowerCase();
-
-
-            const matchesSearch =
-                product.name
-                    .toLowerCase()
-                    .includes(search)
-
-                ||
-
-                productCategory
-                    .includes(search);
-
-
-            return (
-                matchesCategory &&
-                matchesSearch
-            );
-
-        });
-
-
-    displayProducts(filtered);
+    searchTimer =
+        setTimeout(
+            performSearch,
+            350
+        );
 
 }
 
 
-/* ==========================================
-   COMPARE
-========================================== */
+/* =========================================
+   PERFORM SEARCH
+========================================= */
 
-function toggleCompare(productId){
+async function performSearch(){
+
+    const search =
+        document
+            .getElementById(
+                "searchBox"
+            )
+            .value
+            .trim();
+
+
+    /* EMPTY SEARCH */
+
+    if(search === ""){
+
+        filterByCategory();
+
+        return;
+
+    }
+
+
+    const status =
+        document.getElementById(
+            "status"
+        );
+
+
+    status.style.display =
+        "block";
+
+
+    status.innerHTML =
+        "🔎 Searching...";
+
+
+    try{
+
+        const response =
+            await fetch(
+                API_URL +
+                "/api/search?q=" +
+                encodeURIComponent(
+                    search
+                )
+            );
+
+
+        if(!response.ok){
+
+            throw new Error(
+                "Search request failed"
+            );
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        if(!data.success){
+
+            throw new Error(
+                "Search failed"
+            );
+
+        }
+
+
+        let results =
+            data.products.map(
+                convertProduct
+            );
+
+
+        /*
+           Apply category after API search
+        */
+
+        if(
+            currentCategory !==
+            "All"
+        ){
+
+            results =
+                results.filter(
+                    product =>
+                        product.category
+                            .toLowerCase() ===
+                        currentCategory
+                            .toLowerCase()
+                );
+
+        }
+
+
+        status.style.display =
+            "none";
+
+
+        displayProducts(
+            results
+        );
+
+
+    }catch(error){
+
+        console.error(error);
+
+
+        status.innerHTML =
+            '<div class="error">' +
+            '❌ Search failed.' +
+            '</div>';
+
+    }
+
+}
+
+
+/* =========================================
+   CATEGORY FILTER
+========================================= */
+
+function filterByCategory(){
+
+    let results =
+        allProducts;
+
+
+    if(
+        currentCategory !==
+        "All"
+    ){
+
+        results =
+            allProducts.filter(
+                product =>
+                    product.category
+                        .toLowerCase() ===
+                    currentCategory
+                        .toLowerCase()
+            );
+
+    }
+
+
+    document.getElementById(
+        "status"
+    ).style.display = "none";
+
+
+    displayProducts(
+        results
+    );
+
+}
+
+
+/* =========================================
+   COMPARE
+========================================= */
+
+function toggleCompare(
+    productId
+){
 
     const product =
         allProducts.find(
-            p => p.id === productId
+            p =>
+                p.id === productId
         );
 
 
@@ -787,7 +981,8 @@ function toggleCompare(productId){
 
     const existing =
         selectedProducts.findIndex(
-            p => p.id === productId
+            p =>
+                p.id === productId
         );
 
 
@@ -801,7 +996,9 @@ function toggleCompare(productId){
     }else{
 
 
-        if(selectedProducts.length >= 3){
+        if(
+            selectedProducts.length >= 3
+        ){
 
             alert(
                 "You can compare maximum 3 products."
@@ -812,7 +1009,9 @@ function toggleCompare(productId){
         }
 
 
-        selectedProducts.push(product);
+        selectedProducts.push(
+            product
+        );
 
     }
 
@@ -820,14 +1019,35 @@ function toggleCompare(productId){
     updateCompareBar();
 
 
-    filterProducts();
+    /*
+       Refresh current screen
+    */
+
+    const search =
+        document
+            .getElementById(
+                "searchBox"
+            )
+            .value
+            .trim();
+
+
+    if(search){
+
+        performSearch();
+
+    }else{
+
+        filterByCategory();
+
+    }
 
 }
 
 
-/* ==========================================
+/* =========================================
    COMPARE BAR
-========================================== */
+========================================= */
 
 function updateCompareBar(){
 
@@ -843,7 +1063,9 @@ function updateCompareBar(){
         );
 
 
-    if(selectedProducts.length === 0){
+    if(
+        selectedProducts.length === 0
+    ){
 
         bar.style.display =
             "none";
@@ -869,13 +1091,15 @@ function updateCompareBar(){
 }
 
 
-/* ==========================================
+/* =========================================
    SHOW COMPARE
-========================================== */
+========================================= */
 
 function showCompare(){
 
-    if(selectedProducts.length < 2){
+    if(
+        selectedProducts.length < 2
+    ){
 
         alert(
             "Please select at least 2 products."
@@ -890,27 +1114,31 @@ function showCompare(){
         "BESTDEAL COMPARISON\n\n";
 
 
-    selectedProducts.forEach(product => {
+    selectedProducts.forEach(
+        product => {
 
 
-        const cheapestStore =
-            product.stores.reduce(
-                (lowest,current) =>
-                    current.price < lowest.price
-                    ? current
-                    : lowest
-            );
+            const cheapestStore =
+                product.stores.reduce(
+                    (lowest,current) =>
+                        current.price <
+                        lowest.price
+                        ? current
+                        : lowest
+                );
 
 
-        message +=
-            product.name +
-            "\nBest Price: ₹" +
-            cheapestStore.price.toLocaleString("en-IN") +
-            "\nStore: " +
-            cheapestStore.name +
-            "\n\n";
+            message +=
+                product.name +
+                "\nBest Price: ₹" +
+                cheapestStore.price
+                    .toLocaleString("en-IN") +
+                "\nStore: " +
+                cheapestStore.name +
+                "\n\n";
 
-    });
+        }
+    );
 
 
     alert(message);
@@ -918,9 +1146,9 @@ function showCompare(){
 }
 
 
-/* ==========================================
+/* =========================================
    CLEAR COMPARE
-========================================== */
+========================================= */
 
 function clearCompare(){
 
@@ -930,14 +1158,31 @@ function clearCompare(){
     updateCompareBar();
 
 
-    filterProducts();
+    const search =
+        document
+            .getElementById(
+                "searchBox"
+            )
+            .value
+            .trim();
+
+
+    if(search){
+
+        performSearch();
+
+    }else{
+
+        filterByCategory();
+
+    }
 
 }
 
 
-/* ==========================================
-   START APP
-========================================== */
+/* =========================================
+   START
+========================================= */
 
 loadProducts();
 
