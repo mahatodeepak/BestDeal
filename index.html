@@ -1,81 +1,151 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0">
-
-<title>BestDeal – Compare Prices & Save</title>
-
-<meta name="description"
-      content="BestDeal helps you compare product prices and find better deals across online stores.">
+<title>BestDeal – Compare Prices & Save Money</title>
 
 <style>
-
 *{
     box-sizing:border-box;
-    margin:0;
-    padding:0;
-    font-family:Arial,sans-serif;
 }
 
 body{
+    margin:0;
+    font-family:Arial,Helvetica,sans-serif;
     background:#f5f6f8;
     color:#222;
 }
 
 /* HEADER */
-
 header{
     background:#111827;
     color:white;
-    padding:20px 15px;
+    padding:18px 15px;
     text-align:center;
 }
 
-.logo{
-    font-size:32px;
-    font-weight:bold;
+header h1{
+    margin:0;
+    font-size:30px;
 }
 
-.tagline{
-    margin-top:5px;
-    font-size:14px;
+header p{
+    margin:6px 0 0;
     color:#d1d5db;
+    font-size:14px;
 }
 
 /* SEARCH */
-
 .search-area{
-    padding:20px 15px;
-    background:white;
-    text-align:center;
+    max-width:900px;
+    margin:20px auto 10px;
+    padding:0 15px;
+    position:relative;
 }
 
 .search-box{
-    width:100%;
-    max-width:600px;
-    padding:15px;
-    border:1px solid #ccc;
-    border-radius:10px;
-    font-size:16px;
-    outline:none;
+    position:relative;
 }
 
-.search-box:focus{
+#searchInput{
+    width:100%;
+    padding:15px 48px 15px 18px;
+    border:1px solid #d1d5db;
+    border-radius:12px;
+    font-size:16px;
+    outline:none;
+    background:white;
+    box-shadow:0 2px 8px rgba(0,0,0,0.06);
+}
+
+#searchInput:focus{
     border-color:#2563eb;
 }
 
-/* CATEGORIES */
+/* CLEAR BUTTON */
+#clearSearch{
+    position:absolute;
+    right:14px;
+    top:50%;
+    transform:translateY(-50%);
+    border:none;
+    background:none;
+    font-size:20px;
+    color:#777;
+    cursor:pointer;
+    display:none;
+}
 
-.categories{
-    display:flex;
-    gap:10px;
-    overflow-x:auto;
-    padding:15px;
+/* SEARCH SUGGESTIONS */
+.suggestions{
+    position:absolute;
+    left:15px;
+    right:15px;
+    top:58px;
     background:white;
+    border:1px solid #ddd;
+    border-radius:0 0 12px 12px;
+    box-shadow:0 5px 18px rgba(0,0,0,0.12);
+    overflow:hidden;
+    z-index:1000;
+    display:none;
+}
+
+.suggestion-item{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:12px 15px;
+    cursor:pointer;
+    border-bottom:1px solid #eee;
+    background:white;
+}
+
+.suggestion-item:last-child{
+    border-bottom:none;
+}
+
+.suggestion-item:hover{
+    background:#f3f4f6;
+}
+
+.suggestion-image{
+    width:45px;
+    height:45px;
+    object-fit:contain;
+    border-radius:6px;
+    background:#f5f5f5;
+}
+
+.suggestion-info{
+    min-width:0;
+    flex:1;
+}
+
+.suggestion-name{
+    font-size:14px;
+    font-weight:bold;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+.suggestion-category{
+    margin-top:4px;
+    font-size:12px;
+    color:#777;
+}
+
+/* CATEGORIES */
+.categories{
+    max-width:1100px;
+    margin:15px auto;
+    padding:0 15px;
+    display:flex;
+    gap:8px;
+    overflow-x:auto;
     scrollbar-width:none;
 }
 
@@ -83,1229 +153,1379 @@ header{
     display:none;
 }
 
-.category{
-    flex:0 0 auto;
-    padding:10px 16px;
-    border-radius:20px;
-    background:#e5e7eb;
-    cursor:pointer;
-    font-size:14px;
+.category-btn{
     border:none;
+    background:white;
+    padding:9px 16px;
+    border-radius:20px;
+    cursor:pointer;
+    white-space:nowrap;
+    border:1px solid #ddd;
+    font-size:14px;
 }
 
-.category.active{
-    background:#111827;
+.category-btn.active{
+    background:#2563eb;
     color:white;
-}
-
-/* CONTAINER */
-
-.container{
-    max-width:1100px;
-    margin:auto;
-    padding:20px 15px;
-}
-
-.status{
-    text-align:center;
-    padding:20px;
-    color:#555;
+    border-color:#2563eb;
 }
 
 /* PRODUCTS */
-
 .products{
+    max-width:1100px;
+    margin:20px auto 100px;
+    padding:0 15px;
     display:grid;
-    grid-template-columns:
-        repeat(auto-fit,minmax(250px,1fr));
-    gap:20px;
+    grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+    gap:18px;
 }
 
-/* CARD */
-
-.card{
+.product-card{
     background:white;
     border-radius:14px;
     padding:15px;
-    box-shadow:
-        0 3px 12px rgba(0,0,0,0.08);
+    box-shadow:0 3px 12px rgba(0,0,0,0.08);
+    position:relative;
+    transition:transform 0.2s;
 }
 
-.card img{
+.product-card:hover{
+    transform:translateY(-2px);
+}
+
+.product-image{
     width:100%;
-    height:200px;
+    height:190px;
     object-fit:contain;
     border-radius:10px;
-    background:#f3f4f6;
+    background:#f8f8f8;
 }
 
-.card h3{
-    margin:12px 0 8px;
-    font-size:18px;
-}
-
-.category-name{
-    font-size:13px;
-    color:#777;
-    margin-bottom:10px;
-}
-
-.best-price{
-    font-size:22px;
+.product-name{
+    font-size:17px;
     font-weight:bold;
-    margin:8px 0;
+    margin:12px 0 5px;
 }
 
-.best-store{
-    font-size:14px;
-    color:#15803d;
+.product-category{
+    font-size:12px;
+    color:#777;
     margin-bottom:12px;
 }
 
-/* STORE */
-
-.store{
+.price-row{
     display:flex;
     justify-content:space-between;
     align-items:center;
-    border-top:1px solid #eee;
-    padding:10px 0;
+    padding:7px 0;
+    border-bottom:1px solid #eee;
 }
 
-.store-name{
+.store{
+    font-weight:bold;
+    font-size:14px;
+}
+
+.price{
     font-weight:bold;
 }
 
-.store-price{
+.best-price{
+    margin-top:12px;
+    padding:10px;
+    background:#ecfdf5;
+    border-radius:8px;
+    color:#047857;
     font-weight:bold;
 }
 
-/* BUY BUTTON */
+.buy-buttons{
+    display:flex;
+    gap:8px;
+    margin-top:12px;
+}
 
 .buy-btn{
-    display:inline-block;
-    margin-top:5px;
-    padding:8px 12px;
-    background:#2563eb;
-    color:white;
+    flex:1;
+    text-align:center;
     text-decoration:none;
+    padding:9px 5px;
     border-radius:7px;
+    color:white;
     font-size:13px;
+    font-weight:bold;
 }
 
-/* COMPARE BUTTON */
+.amazon{
+    background:#ff9900;
+}
+
+.flipkart{
+    background:#2874f0;
+}
 
 .compare-btn{
     width:100%;
-    margin-top:12px;
-    padding:10px;
+    margin-top:10px;
+    padding:9px;
     border:none;
-    border-radius:8px;
-    background:#f59e0b;
+    border-radius:7px;
+    background:#111827;
     color:white;
+    cursor:pointer;
+}
+
+.compare-btn.selected{
+    background:#16a34a;
+}
+
+/* STATUS */
+.status{
+    text-align:center;
+    padding:15px;
+    color:#666;
+}
+
+/* NO RESULTS */
+.no-results{
+    grid-column:1/-1;
+    text-align:center;
+    padding:50px 20px;
+    color:#777;
+}
+
+/* COMPARE BAR */
+.compare-bar{
+    position:fixed;
+    left:0;
+    right:0;
+    bottom:0;
+    background:#111827;
+    color:white;
+    padding:12px 15px;
+    display:none;
+    z-index:2000;
+}
+
+.compare-inner{
+    max-width:1100px;
+    margin:auto;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+}
+
+.compare-count{
+    font-size:14px;
+}
+
+.compare-action{
+    background:#22c55e;
+    border:none;
+    color:white;
+    padding:10px 18px;
+    border-radius:7px;
     font-weight:bold;
     cursor:pointer;
 }
 
-/* COMPARE BAR */
-
-.compare-bar{
+/* COMPARE MODAL */
+.modal{
     position:fixed;
-    bottom:0;
-    left:0;
-    right:0;
-    background:#111827;
-    color:white;
-    padding:15px;
+    inset:0;
+    background:rgba(0,0,0,0.65);
     display:none;
-    text-align:center;
-    z-index:1000;
+    align-items:center;
+    justify-content:center;
+    padding:15px;
+    z-index:3000;
 }
 
-.compare-bar button{
-    margin-left:10px;
-    padding:8px 15px;
+.modal-content{
+    background:white;
+    width:100%;
+    max-width:900px;
+    max-height:90vh;
+    overflow:auto;
+    border-radius:14px;
+    padding:20px;
+}
+
+.modal-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.modal-header h2{
+    margin:0;
+}
+
+.close-modal{
     border:none;
-    border-radius:6px;
+    background:#eee;
+    width:35px;
+    height:35px;
+    border-radius:50%;
     cursor:pointer;
+    font-size:18px;
 }
 
-/* FOOTER */
-
-footer{
-    margin-top:40px;
-    background:#111827;
-    color:#ccc;
-    text-align:center;
-    padding:25px 15px;
-    font-size:13px;
+.compare-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+    gap:15px;
+    margin-top:20px;
 }
 
-.error{
-    color:#dc2626;
+.compare-product{
+    border:1px solid #ddd;
+    border-radius:10px;
+    padding:12px;
 }
 
-/* MOBILE */
+.compare-product img{
+    width:100%;
+    height:140px;
+    object-fit:contain;
+}
+
+.compare-product h3{
+    font-size:15px;
+}
 
 @media(max-width:600px){
 
+    header h1{
+        font-size:26px;
+    }
+
     .products{
-        grid-template-columns:1fr;
+        grid-template-columns:repeat(2,1fr);
+        gap:10px;
     }
 
-    .card img{
-        height:220px;
+    .product-card{
+        padding:10px;
     }
 
-    .compare-bar{
+    .product-image{
+        height:140px;
+    }
+
+    .product-name{
         font-size:14px;
     }
 
-    .compare-bar button{
-        margin-top:5px;
+    .price-row{
+        font-size:12px;
     }
 
+    .buy-btn{
+        font-size:11px;
+    }
 }
-
 </style>
-
 </head>
 
 <body>
 
-<!-- HEADER -->
-
 <header>
-
-    <div class="logo">
-        BestDeal
-    </div>
-
-    <div class="tagline">
-        Compare. Save. Buy Better.
-    </div>
-
+    <h1>BestDeal</h1>
+    <p>Compare. Save. Buy Better.</p>
 </header>
 
-
 <!-- SEARCH -->
-
 <div class="search-area">
 
-    <input
-        type="text"
-        id="searchBox"
-        class="search-box"
-        placeholder="Search products..."
-        oninput="filterProducts()"
-    >
+    <div class="search-box">
+
+        <input
+            type="text"
+            id="searchInput"
+            placeholder="Search products..."
+            autocomplete="off"
+            oninput="handleSearch()"
+            onfocus="showSuggestions()"
+        >
+
+        <button id="clearSearch" onclick="clearSearch()">×</button>
+
+        <div id="suggestions" class="suggestions"></div>
+
+    </div>
 
 </div>
 
+<!-- CATEGORIES -->
+<div id="categories" class="categories"></div>
 
-<!-- DYNAMIC CATEGORIES -->
-
-<div
-    id="categories"
-    class="categories">
-
-    <button
-        class="category active"
-        onclick="selectCategory('All',this)">
-        All
-    </button>
-
+<!-- STATUS -->
+<div id="status" class="status">
+    Loading products...
 </div>
-
 
 <!-- PRODUCTS -->
-
-<div class="container">
-
-    <div id="status"
-         class="status">
-        Loading products...
-    </div>
-
-    <div id="products"
-         class="products">
-    </div>
-
-</div>
-
+<div id="products" class="products"></div>
 
 <!-- COMPARE BAR -->
+<div id="compareBar" class="compare-bar">
 
-<div id="compareBar"
-     class="compare-bar">
+    <div class="compare-inner">
 
-    <span id="compareText">
-        0 products selected
-    </span>
+        <div class="compare-count">
+            <span id="compareCount">0</span>/3 products selected
+        </div>
 
-    <button onclick="showCompare()">
-        Compare
-    </button>
+        <button class="compare-action" onclick="openCompare()">
+            Compare
+        </button>
 
-    <button onclick="clearCompare()">
-        Clear
-    </button>
+    </div>
 
 </div>
 
+<!-- COMPARE MODAL -->
+<div id="compareModal" class="modal">
 
-<!-- FOOTER -->
+    <div class="modal-content">
 
-<footer>
+        <div class="modal-header">
 
-    <p>© 2026 BestDeal</p>
+            <h2>Compare Products</h2>
 
-    <p>
-        Compare. Save. Buy Better.
-    </p>
+            <button
+                class="close-modal"
+                onclick="closeCompare()"
+            >
+                ×
+            </button>
 
-</footer>
+        </div>
 
+        <div id="compareProducts" class="compare-grid"></div>
+
+    </div>
+
+</div>
 
 <script>
 
-/* =========================================
-   CLOUDFLARE WORKER
-========================================= */
+/* ==============================
+   BESTDEAL API
+============================== */
 
 const API_URL =
-"https://bestdeal-api.deepakmahatobist.workers.dev";
+    "https://bestdeal-api.deepakmahatobist.workers.dev";
 
 
-/* =========================================
-   VARIABLES
-========================================= */
+/* ==============================
+   GLOBAL VARIABLES
+============================== */
 
 let allProducts = [];
 
-let currentCategory = "All";
+let filteredProducts = [];
 
-let selectedProducts = [];
+let selectedCategory = "All";
 
-let searchTimer = null;
-
-
-/* =========================================
-   CONVERT API PRODUCT
-========================================= */
-
-function convertProduct(product){
-
-    const stores = [];
+let compareList = [];
 
 
-    /* AMAZON */
-
-    if(
-        product.amazon_price !== null &&
-        product.amazon_price !== undefined &&
-        Number(product.amazon_price) > 0
-    ){
-
-        stores.push({
-
-            name:"Amazon",
-
-            price:Number(
-                product.amazon_price
-            ),
-
-            url:
-                product.amazon_url ||
-                "https://www.amazon.in/"
-
-        });
-
-    }
-
-
-    /* FLIPKART */
-
-    if(
-        product.flipkart_price !== null &&
-        product.flipkart_price !== undefined &&
-        Number(product.flipkart_price) > 0
-    ){
-
-        stores.push({
-
-            name:"Flipkart",
-
-            price:Number(
-                product.flipkart_price
-            ),
-
-            url:
-                product.flipkart_url ||
-                "https://www.flipkart.com/"
-
-        });
-
-    }
-
-
-    return {
-
-        id:String(product.id),
-
-        name:product.name || "Unnamed Product",
-
-        category:
-            product.category ||
-            "Other",
-
-        image:
-            product.image_url ||
-            "https://via.placeholder.com/300",
-
-        stores:stores
-
-    };
-
-}
-
-
-/* =========================================
-   LOAD ALL PRODUCTS
-========================================= */
+/* ==============================
+   LOAD PRODUCTS
+============================== */
 
 async function loadProducts(){
 
     const status =
         document.getElementById("status");
 
-
     try{
 
-        const response =
-            await fetch(
-                API_URL +
-                "/api/products"
-            );
+        status.textContent =
+            "Loading products...";
 
+        const response =
+            await fetch(API_URL + "/api/products");
 
         if(!response.ok){
-
-            throw new Error(
-                "API request failed"
-            );
-
+            throw new Error("API error");
         }
-
 
         const data =
             await response.json();
 
+        /*
+          Support different API response formats
+        */
 
-        if(!data.success){
-
-            throw new Error(
-                "API returned error"
-            );
-
+        if(Array.isArray(data)){
+            allProducts = data;
         }
-
-
-        allProducts =
-            data.products.map(
-                convertProduct
-            );
-
-
-        /* CREATE CATEGORIES */
+        else if(Array.isArray(data.products)){
+            allProducts = data.products;
+        }
+        else{
+            allProducts = [];
+        }
 
         buildCategories();
 
+        filteredProducts =
+            [...allProducts];
 
-        status.style.display =
-            "none";
+        renderProducts();
 
+        status.textContent = "";
 
-        displayProducts(
-            allProducts
-        );
-
-
-    }catch(error){
+    }
+    catch(error){
 
         console.error(error);
 
-
-        status.innerHTML =
-            '<div class="error">' +
-            '❌ Unable to connect to BestDeal API.' +
-            '<br><br>' +
-            'Please check your Cloudflare Worker.' +
-            '</div>';
+        status.textContent =
+            "Unable to load products.";
 
     }
 
 }
 
 
-/* =========================================
-   BUILD DYNAMIC CATEGORIES
-========================================= */
+/* ==============================
+   BUILD CATEGORIES
+============================== */
 
 function buildCategories(){
 
-    const container =
-        document.getElementById(
-            "categories"
-        );
+    const categoryContainer =
+        document.getElementById("categories");
 
-
-    container.innerHTML = "";
-
-
-    /* ALL BUTTON */
-
-    const allButton =
-        document.createElement(
-            "button"
-        );
-
-
-    allButton.className =
-        "category active";
-
-
-    allButton.innerText =
-        "All";
-
-
-    allButton.onclick =
-        function(){
-
-            selectCategory(
-                "All",
-                this
-            );
-
-        };
-
-
-    container.appendChild(
-        allButton
-    );
-
-
-    /* FIND UNIQUE CATEGORIES */
-
-    const categorySet =
-        new Set();
-
-
-    allProducts.forEach(
-        product => {
-
-            if(
-                product.category
-            ){
-
-                categorySet.add(
-                    product.category
-                );
-
-            }
-
-        }
-    );
-
+    categoryContainer.innerHTML = "";
 
     const categories =
-        Array.from(
-            categorySet
-        ).sort();
+        new Set();
 
+    allProducts.forEach(product => {
 
-    /* CREATE BUTTONS */
+        if(product.category){
 
-    categories.forEach(
-        category => {
-
-            const button =
-                document.createElement(
-                    "button"
-                );
-
-
-            button.className =
-                "category";
-
-
-            button.innerText =
-                category;
-
-
-            button.onclick =
-                function(){
-
-                    selectCategory(
-                        category,
-                        this
-                    );
-
-                };
-
-
-            container.appendChild(
-                button
+            categories.add(
+                product.category
             );
 
         }
+
+    });
+
+    const sortedCategories =
+        [...categories].sort();
+
+    createCategoryButton(
+        "All",
+        categoryContainer
     );
 
-}
+    sortedCategories.forEach(category => {
 
-
-/* =========================================
-   DISPLAY PRODUCTS
-========================================= */
-
-function displayProducts(products){
-
-    const container =
-        document.getElementById(
-            "products"
+        createCategoryButton(
+            category,
+            categoryContainer
         );
-
-
-    container.innerHTML = "";
-
-
-    if(products.length === 0){
-
-        container.innerHTML =
-            "<div style='text-align:center;" +
-            "width:100%;padding:30px'>" +
-            "No products found." +
-            "</div>";
-
-        return;
-
-    }
-
-
-    products.forEach(product => {
-
-
-        if(
-            !product.stores ||
-            product.stores.length === 0
-        ){
-
-            return;
-
-        }
-
-
-        /* FIND CHEAPEST STORE */
-
-        const cheapestStore =
-            product.stores.reduce(
-                (lowest,current) =>
-                    current.price < lowest.price
-                    ? current
-                    : lowest
-            );
-
-
-        /* STORE HTML */
-
-        let storesHTML = "";
-
-
-        product.stores.forEach(
-            store => {
-
-                storesHTML += `
-
-                    <div class="store">
-
-                        <div>
-
-                            <div class="store-name">
-                                ${store.name}
-                            </div>
-
-                            <div class="store-price">
-                                ₹${store.price.toLocaleString("en-IN")}
-                            </div>
-
-                        </div>
-
-                        <a
-                            href="${store.url}"
-                            class="buy-btn"
-                            target="_blank"
-                            rel="noopener noreferrer">
-                            Buy
-                        </a>
-
-                    </div>
-
-                `;
-
-            }
-        );
-
-
-        /* CHECK SELECTED */
-
-        const isSelected =
-            selectedProducts.some(
-                p =>
-                    p.id === product.id
-            );
-
-
-        /* CREATE CARD */
-
-        const card =
-            document.createElement(
-                "div"
-            );
-
-
-        card.className =
-            "card";
-
-
-        card.innerHTML = `
-
-            <img
-                src="${product.image}"
-                alt="${product.name}"
-                onerror="this.src='https://via.placeholder.com/300'"
-            >
-
-            <div class="category-name">
-                ${product.category}
-            </div>
-
-            <h3>
-                ${product.name}
-            </h3>
-
-            <div class="best-price">
-                ₹${cheapestStore.price.toLocaleString("en-IN")}
-            </div>
-
-            <div class="best-store">
-                Best price at ${cheapestStore.name}
-            </div>
-
-            ${storesHTML}
-
-            <button
-                class="compare-btn"
-                onclick="toggleCompare('${product.id}')">
-
-                ${
-                    isSelected
-                    ? "✓ Added to Compare"
-                    : "Add to Compare"
-                }
-
-            </button>
-
-        `;
-
-
-        container.appendChild(card);
 
     });
 
 }
 
 
-/* =========================================
-   CATEGORY SELECT
-========================================= */
+/* ==============================
+   CREATE CATEGORY BUTTON
+============================== */
 
-function selectCategory(
+function createCategoryButton(
     category,
-    element
+    container
 ){
 
-    currentCategory =
+    const button =
+        document.createElement("button");
+
+    button.className =
+        "category-btn";
+
+    if(category === selectedCategory){
+
+        button.classList.add("active");
+
+    }
+
+    button.textContent =
         category;
 
+    button.onclick = function(){
 
-    document
-        .querySelectorAll(".category")
-        .forEach(button =>
-            button.classList.remove(
-                "active"
-            )
+        selectedCategory =
+            category;
+
+        updateCategoryButtons();
+
+        applyFilters();
+
+    };
+
+    container.appendChild(button);
+
+}
+
+
+/* ==============================
+   UPDATE CATEGORY BUTTONS
+============================== */
+
+function updateCategoryButtons(){
+
+    const buttons =
+        document.querySelectorAll(
+            ".category-btn"
         );
 
+    buttons.forEach(button => {
 
-    element.classList.add(
-        "active"
-    );
+        if(button.textContent === selectedCategory){
 
+            button.classList.add("active");
+
+        }
+        else{
+
+            button.classList.remove("active");
+
+        }
+
+    });
+
+}
+
+
+/* ==============================
+   SEARCH HANDLER
+============================== */
+
+function handleSearch(){
+
+    const input =
+        document.getElementById("searchInput");
+
+    const text =
+        input.value.trim();
+
+    const clearButton =
+        document.getElementById("clearSearch");
+
+    if(text.length > 0){
+
+        clearButton.style.display =
+            "block";
+
+    }
+    else{
+
+        clearButton.style.display =
+            "none";
+
+    }
 
     /*
-       Do NOT clear search.
-       Search + category can work together.
+      Apply product filters
     */
 
     applyFilters();
 
-}
+    /*
+      Show suggestions
+    */
 
-
-/* =========================================
-   SEARCH
-========================================= */
-
-function filterProducts(){
-
-    clearTimeout(
-        searchTimer
-    );
-
-
-    searchTimer =
-        setTimeout(
-            performSearch,
-            350
-        );
+    showSuggestions();
 
 }
 
 
-/* =========================================
-   SEARCH
-========================================= */
-
-async function performSearch(){
-
-    const search =
-        document
-            .getElementById(
-                "searchBox"
-            )
-            .value
-            .trim();
-
-
-    /* EMPTY SEARCH */
-
-    if(search === ""){
-
-        applyFilters();
-
-        return;
-
-    }
-
-
-    const status =
-        document.getElementById(
-            "status"
-        );
-
-
-    status.style.display =
-        "block";
-
-
-    status.innerHTML =
-        "🔎 Searching...";
-
-
-    try{
-
-        const response =
-            await fetch(
-                API_URL +
-                "/api/search?q=" +
-                encodeURIComponent(
-                    search
-                )
-            );
-
-
-        if(!response.ok){
-
-            throw new Error(
-                "Search request failed"
-            );
-
-        }
-
-
-        const data =
-            await response.json();
-
-
-        if(!data.success){
-
-            throw new Error(
-                "Search failed"
-            );
-
-        }
-
-
-        let results =
-            data.products.map(
-                convertProduct
-            );
-
-
-        /* CATEGORY FILTER */
-
-        if(
-            currentCategory !==
-            "All"
-        ){
-
-            results =
-                results.filter(
-                    product =>
-                        product.category
-                            .toLowerCase() ===
-                        currentCategory
-                            .toLowerCase()
-                );
-
-        }
-
-
-        status.style.display =
-            "none";
-
-
-        displayProducts(
-            results
-        );
-
-
-    }catch(error){
-
-        console.error(error);
-
-
-        status.innerHTML =
-            '<div class="error">' +
-            '❌ Search failed.' +
-            '</div>';
-
-    }
-
-}
-
-
-/* =========================================
-   APPLY LOCAL FILTERS
-========================================= */
+/* ==============================
+   APPLY SEARCH + CATEGORY FILTER
+============================== */
 
 function applyFilters(){
 
-    const search =
-        document
-            .getElementById(
-                "searchBox"
-            )
-            .value
-            .trim()
-            .toLowerCase();
+    const input =
+        document.getElementById("searchInput");
 
+    const query =
+        input.value.trim().toLowerCase();
 
-    let results =
-        allProducts;
+    filteredProducts =
+        allProducts.filter(product => {
 
+            const name =
+                String(
+                    product.name || ""
+                ).toLowerCase();
 
-    /* CATEGORY */
+            const category =
+                String(
+                    product.category || ""
+                ).toLowerCase();
 
-    if(
-        currentCategory !==
-        "All"
-    ){
+            const searchMatch =
+                query === "" ||
+                name.includes(query) ||
+                category.includes(query);
 
-        results =
-            results.filter(
-                product =>
-                    product.category
-                        .toLowerCase() ===
-                    currentCategory
-                        .toLowerCase()
-            );
+            const categoryMatch =
+                selectedCategory === "All" ||
+                category ===
+                selectedCategory.toLowerCase();
 
-    }
+            return searchMatch &&
+                   categoryMatch;
 
+        });
 
-    /* SEARCH */
-
-    if(search){
-
-        results =
-            results.filter(
-                product =>
-
-                    product.name
-                        .toLowerCase()
-                        .includes(search)
-
-                    ||
-
-                    product.category
-                        .toLowerCase()
-                        .includes(search)
-
-            );
-
-    }
-
-
-    document.getElementById(
-        "status"
-    ).style.display =
-        "none";
-
-
-    displayProducts(
-        results
-    );
+    renderProducts();
 
 }
 
 
-/* =========================================
-   COMPARE
-========================================= */
+/* ==============================
+   SEARCH SUGGESTIONS
+============================== */
 
-function toggleCompare(
-    productId
-){
+function showSuggestions(){
 
-    const product =
-        allProducts.find(
-            p =>
-                p.id === productId
-        );
+    const input =
+        document.getElementById("searchInput");
 
+    const suggestionsBox =
+        document.getElementById("suggestions");
 
-    if(!product){
+    const query =
+        input.value.trim().toLowerCase();
+
+    /*
+      Don't show suggestions
+      when nothing is typed
+    */
+
+    if(query.length < 1){
+
+        suggestionsBox.style.display =
+            "none";
 
         return;
 
     }
 
+    /*
+      Find matching products
+    */
 
-    const existing =
-        selectedProducts.findIndex(
-            p =>
-                p.id === productId
+    let matches =
+        allProducts.filter(product => {
+
+            const name =
+                String(
+                    product.name || ""
+                ).toLowerCase();
+
+            const category =
+                String(
+                    product.category || ""
+                ).toLowerCase();
+
+            return name.includes(query) ||
+                   category.includes(query);
+
+        });
+
+    /*
+      Remove duplicate names
+    */
+
+    const seen =
+        new Set();
+
+    matches =
+        matches.filter(product => {
+
+            const name =
+                String(
+                    product.name || ""
+                );
+
+            const key =
+                name.toLowerCase();
+
+            if(seen.has(key)){
+                return false;
+            }
+
+            seen.add(key);
+
+            return true;
+
+        });
+
+    /*
+      Maximum 6 suggestions
+    */
+
+    matches =
+        matches.slice(0,6);
+
+    suggestionsBox.innerHTML = "";
+
+    if(matches.length === 0){
+
+        suggestionsBox.style.display =
+            "none";
+
+        return;
+
+    }
+
+    matches.forEach(product => {
+
+        const item =
+            document.createElement("div");
+
+        item.className =
+            "suggestion-item";
+
+        const image =
+            product.image_url ||
+            product.image ||
+            "https://via.placeholder.com/100";
+
+        item.innerHTML = `
+
+            <img
+                class="suggestion-image"
+                src="${escapeHtml(image)}"
+                onerror="this.src='https://via.placeholder.com/100'"
+            >
+
+            <div class="suggestion-info">
+
+                <div class="suggestion-name">
+                    ${escapeHtml(product.name || "Product")}
+                </div>
+
+                <div class="suggestion-category">
+                    ${escapeHtml(product.category || "")}
+                </div>
+
+            </div>
+
+        `;
+
+        /*
+          Clicking suggestion
+        */
+
+        item.onclick = function(){
+
+            input.value =
+                product.name || "";
+
+            document.getElementById(
+                "clearSearch"
+            ).style.display = "block";
+
+            suggestionsBox.style.display =
+                "none";
+
+            applyFilters();
+
+        };
+
+        suggestionsBox.appendChild(item);
+
+    });
+
+    suggestionsBox.style.display =
+        "block";
+
+}
+
+
+/* ==============================
+   HIDE SUGGESTIONS
+============================== */
+
+document.addEventListener(
+    "click",
+    function(event){
+
+        const searchArea =
+            document.querySelector(
+                ".search-area"
+            );
+
+        if(
+            searchArea &&
+            !searchArea.contains(event.target)
+        ){
+
+            document.getElementById(
+                "suggestions"
+            ).style.display = "none";
+
+        }
+
+    }
+);
+
+
+/* ==============================
+   CLEAR SEARCH
+============================== */
+
+function clearSearch(){
+
+    const input =
+        document.getElementById("searchInput");
+
+    input.value = "";
+
+    document.getElementById(
+        "clearSearch"
+    ).style.display = "none";
+
+    document.getElementById(
+        "suggestions"
+    ).style.display = "none";
+
+    applyFilters();
+
+    input.focus();
+
+}
+
+
+/* ==============================
+   RENDER PRODUCTS
+============================== */
+
+function renderProducts(){
+
+    const container =
+        document.getElementById("products");
+
+    container.innerHTML = "";
+
+    if(filteredProducts.length === 0){
+
+        container.innerHTML = `
+
+            <div class="no-results">
+
+                <h3>No products found</h3>
+
+                <p>
+                    Try another product name or category.
+                </p>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+    filteredProducts.forEach(
+        product => {
+
+            container.appendChild(
+                createProductCard(product)
+            );
+
+        }
+    );
+
+}
+
+
+/* ==============================
+   CREATE PRODUCT CARD
+============================== */
+
+function createProductCard(product){
+
+    const card =
+        document.createElement("div");
+
+    card.className =
+        "product-card";
+
+    const name =
+        product.name ||
+        "Unnamed Product";
+
+    const category =
+        product.category ||
+        "Other";
+
+    const image =
+        product.image_url ||
+        product.image ||
+        "https://via.placeholder.com/300";
+
+    const amazonPrice =
+        Number(product.amazon_price);
+
+    const flipkartPrice =
+        Number(product.flipkart_price);
+
+    /*
+      Determine lowest price
+    */
+
+    let bestPrice = null;
+
+    if(
+        !isNaN(amazonPrice) &&
+        amazonPrice > 0
+    ){
+
+        bestPrice = amazonPrice;
+
+    }
+
+    if(
+        !isNaN(flipkartPrice) &&
+        flipkartPrice > 0
+    ){
+
+        if(
+            bestPrice === null ||
+            flipkartPrice < bestPrice
+        ){
+
+            bestPrice =
+                flipkartPrice;
+
+        }
+
+    }
+
+    /*
+      If API already provides best_price,
+      use it when valid
+    */
+
+    const apiBestPrice =
+        Number(product.best_price);
+
+    if(
+        !isNaN(apiBestPrice) &&
+        apiBestPrice > 0
+    ){
+
+        bestPrice =
+            apiBestPrice;
+
+    }
+
+    const amazonURL =
+        product.amazon_url ||
+        "https://www.amazon.in/";
+
+    const flipkartURL =
+        product.flipkart_url ||
+        "https://www.flipkart.com/";
+
+    /*
+      Check compare selection
+    */
+
+    const selected =
+        compareList.some(
+            item =>
+                String(item.id) ===
+                String(product.id)
         );
 
+    card.innerHTML = `
 
-    if(existing >= 0){
+        <img
+            class="product-image"
+            src="${escapeHtml(image)}"
+            alt="${escapeHtml(name)}"
+            onerror="this.src='https://via.placeholder.com/300'"
+        >
 
-        selectedProducts.splice(
-            existing,
+        <div class="product-name">
+            ${escapeHtml(name)}
+        </div>
+
+        <div class="product-category">
+            ${escapeHtml(category)}
+        </div>
+
+        <div class="price-row">
+
+            <span class="store">
+                Amazon
+            </span>
+
+            <span class="price">
+                ${
+                    !isNaN(amazonPrice) &&
+                    amazonPrice > 0
+                    ? "₹" + amazonPrice.toLocaleString("en-IN")
+                    : "—"
+                }
+            </span>
+
+        </div>
+
+        <div class="price-row">
+
+            <span class="store">
+                Flipkart
+            </span>
+
+            <span class="price">
+                ${
+                    !isNaN(flipkartPrice) &&
+                    flipkartPrice > 0
+                    ? "₹" + flipkartPrice.toLocaleString("en-IN")
+                    : "—"
+                }
+            </span>
+
+        </div>
+
+        ${
+            bestPrice !== null
+            ? `
+                <div class="best-price">
+                    Lowest Price:
+                    ₹${bestPrice.toLocaleString("en-IN")}
+                </div>
+            `
+            : ""
+        }
+
+        <div class="buy-buttons">
+
+            <a
+                class="buy-btn amazon"
+                href="${escapeHtml(amazonURL)}"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                Amazon
+            </a>
+
+            <a
+                class="buy-btn flipkart"
+                href="${escapeHtml(flipkartURL)}"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                Flipkart
+            </a>
+
+        </div>
+
+        <button
+            class="compare-btn ${
+                selected ? "selected" : ""
+            }"
+            onclick="toggleCompare('${escapeJs(String(product.id))}')"
+        >
+
+            ${
+                selected
+                ? "✓ Added to Compare"
+                : "Add to Compare"
+            }
+
+        </button>
+
+    `;
+
+    return card;
+
+}
+
+
+/* ==============================
+   COMPARE
+============================== */
+
+function toggleCompare(id){
+
+    const product =
+        allProducts.find(
+            item =>
+                String(item.id) ===
+                String(id)
+        );
+
+    if(!product){
+        return;
+    }
+
+    const existingIndex =
+        compareList.findIndex(
+            item =>
+                String(item.id) ===
+                String(id)
+        );
+
+    if(existingIndex !== -1){
+
+        compareList.splice(
+            existingIndex,
             1
         );
 
-    }else{
+    }
+    else{
 
-
-        if(
-            selectedProducts.length >= 3
-        ){
+        if(compareList.length >= 3){
 
             alert(
-                "You can compare maximum 3 products."
+                "You can compare up to 3 products."
             );
 
             return;
 
         }
 
-
-        selectedProducts.push(
-            product
-        );
+        compareList.push(product);
 
     }
-
 
     updateCompareBar();
 
-
-    /*
-       Refresh current screen
-    */
-
-    const search =
-        document
-            .getElementById(
-                "searchBox"
-            )
-            .value
-            .trim();
-
-
-    if(search){
-
-        performSearch();
-
-    }else{
-
-        applyFilters();
-
-    }
+    renderProducts();
 
 }
 
 
-/* =========================================
-   COMPARE BAR
-========================================= */
+/* ==============================
+   UPDATE COMPARE BAR
+============================== */
 
 function updateCompareBar(){
 
     const bar =
-        document.getElementById(
-            "compareBar"
-        );
+        document.getElementById("compareBar");
 
+    const count =
+        document.getElementById("compareCount");
 
-    const text =
-        document.getElementById(
-            "compareText"
-        );
+    count.textContent =
+        compareList.length;
 
-
-    if(
-        selectedProducts.length === 0
-    ){
-
-        bar.style.display =
-            "none";
-
-    }else{
+    if(compareList.length > 0){
 
         bar.style.display =
             "block";
 
+    }
+    else{
 
-        text.innerText =
-            selectedProducts.length +
-            " product" +
-            (
-                selectedProducts.length > 1
-                ? "s"
-                : ""
-            ) +
-            " selected";
+        bar.style.display =
+            "none";
 
     }
 
 }
 
 
-/* =========================================
-   SHOW COMPARE
-========================================= */
+/* ==============================
+   OPEN COMPARE
+============================== */
 
-function showCompare(){
+function openCompare(){
 
-    if(
-        selectedProducts.length < 2
-    ){
+    if(compareList.length === 0){
 
         alert(
-            "Please select at least 2 products."
+            "Please select products first."
         );
 
         return;
 
     }
 
+    const modal =
+        document.getElementById(
+            "compareModal"
+        );
 
-    let message =
-        "BESTDEAL COMPARISON\n\n";
+    const container =
+        document.getElementById(
+            "compareProducts"
+        );
 
+    container.innerHTML = "";
 
-    selectedProducts.forEach(
-        product => {
+    compareList.forEach(product => {
 
+        const item =
+            document.createElement("div");
 
-            const cheapestStore =
-                product.stores.reduce(
-                    (lowest,current) =>
-                        current.price <
-                        lowest.price
-                        ? current
-                        : lowest
-                );
+        item.className =
+            "compare-product";
 
+        const name =
+            product.name ||
+            "Product";
 
-            message +=
-                product.name +
-                "\nBest Price: ₹" +
-                cheapestStore.price
-                    .toLocaleString("en-IN") +
-                "\nStore: " +
-                cheapestStore.name +
-                "\n\n";
+        const image =
+            product.image_url ||
+            product.image ||
+            "https://via.placeholder.com/300";
+
+        const amazon =
+            Number(product.amazon_price);
+
+        const flipkart =
+            Number(product.flipkart_price);
+
+        let lowest = null;
+
+        if(
+            !isNaN(amazon) &&
+            amazon > 0
+        ){
+
+            lowest = amazon;
 
         }
-    );
 
+        if(
+            !isNaN(flipkart) &&
+            flipkart > 0
+        ){
 
-    alert(message);
+            if(
+                lowest === null ||
+                flipkart < lowest
+            ){
+
+                lowest = flipkart;
+
+            }
+
+        }
+
+        item.innerHTML = `
+
+            <img
+                src="${escapeHtml(image)}"
+                alt="${escapeHtml(name)}"
+                onerror="this.src='https://via.placeholder.com/300'"
+            >
+
+            <h3>
+                ${escapeHtml(name)}
+            </h3>
+
+            <p>
+                Amazon:
+                <strong>
+                    ${
+                        !isNaN(amazon) &&
+                        amazon > 0
+                        ? "₹" + amazon.toLocaleString("en-IN")
+                        : "—"
+                    }
+                </strong>
+            </p>
+
+            <p>
+                Flipkart:
+                <strong>
+                    ${
+                        !isNaN(flipkart) &&
+                        flipkart > 0
+                        ? "₹" + flipkart.toLocaleString("en-IN")
+                        : "—"
+                    }
+                </strong>
+            </p>
+
+            ${
+                lowest !== null
+                ? `
+                    <p style="color:#047857;font-weight:bold;">
+                        Lowest:
+                        ₹${lowest.toLocaleString("en-IN")}
+                    </p>
+                `
+                : ""
+            }
+
+        `;
+
+        container.appendChild(item);
+
+    });
+
+    modal.style.display =
+        "flex";
 
 }
 
 
-/* =========================================
-   CLEAR COMPARE
-========================================= */
+/* ==============================
+   CLOSE COMPARE
+============================== */
 
-function clearCompare(){
+function closeCompare(){
 
-    selectedProducts = [];
-
-
-    updateCompareBar();
-
-
-    const search =
-        document
-            .getElementById(
-                "searchBox"
-            )
-            .value
-            .trim();
-
-
-    if(search){
-
-        performSearch();
-
-    }else{
-
-        applyFilters();
-
-    }
+    document.getElementById(
+        "compareModal"
+    ).style.display = "none";
 
 }
 
 
-/* =========================================
+/* ==============================
+   SECURITY HELPERS
+============================== */
+
+function escapeHtml(value){
+
+    return String(value)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+function escapeJs(value){
+
+    return String(value)
+        .replace(/\\/g,"\\\\")
+        .replace(/'/g,"\\'")
+        .replace(/"/g,"&quot;");
+
+}
+
+
+/* ==============================
    START
-========================================= */
+============================== */
 
 loadProducts();
 
